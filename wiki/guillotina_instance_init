@@ -1,0 +1,9 @@
+
+# Create container
+curl -i -X POST http://localhost:8080/db/ -H 'Accept: application/json' -H 'Content-Type: application/json' --data-raw '{"@type": "Container", "description": "Wikipedia Entry Store", "id": "wikientry", "title": "Wiki Entry"}' --user root:root 
+
+
+# Install application
+curl -i -X POST http://localhost:8080/db/wikientry/@addons -H 'Accept: application/json' -H 'Content-Type: application/json' --data-raw '{"id": "wiki"}' --user root:root
+
+
