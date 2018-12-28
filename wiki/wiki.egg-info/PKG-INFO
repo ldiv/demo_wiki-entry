@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Name: wiki
+Version: 1.0.0
+Summary: Guillotina server application python project
+Home-page: UNKNOWN
+Author: LD
+Author-email: 
+License: UNKNOWN
+Description: A store for Wikipedia entries
+Platform: UNKNOWN
+Provides-Extra: test

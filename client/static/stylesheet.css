@@ -1,0 +1,70 @@
+
+#page_wrapper {
+    margin: 0 auto;
+    width: 80%;
+}
+
+#lookup_panel {
+    margin-top: 3em;
+}
+
+label[for=term] {
+    padding-right: 1em;
+}
+
+#term {
+    width: 27em;
+}
+
+#lookup_result {
+    padding: 1em;
+    background-color: #fffef8;
+
+}
+
+#current_entries {
+  font-size:100%;
+  line-height:1.5;
+  font-family: 'Merriweather', Georgia, 'Times New Roman', Times, serif;
+}
+
+.result_title {
+    margin: 1em;
+    width: 80%;
+}
+
+.result_body {
+    margin: 1em;
+    width: 80%;
+}
+
+.entry {
+    padding: 1em;
+    background-color: #f1f5f8;
+    margin-bottom: .3em;
+}
+
+.entry_title,
+.entry_body,
+.entry_uuid
+{
+    margin: 1em;
+    width: 90%;
+}
+
+#submit_to_store {
+    display: none;
+}
+
+.delete_from_store {
+    background-image: url(delete32.png);
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+    left: 85%;
+    position: absolute;
+}
+
+#current_entries {
+    margin-top: 3em;
+}

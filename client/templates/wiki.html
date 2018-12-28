@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wiki Store</title>
+    <link rel="stylesheet" href="static/stylesheet.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div id="page_wrapper">
+        <header><h1>Wiki Store</h1></header>
+
+        <div id="content_wrapper">
+            {{ message }}
+        </div>
+
+        <div id="lookup_panel">
+            <label for="term">Lookup in Wikipedia</label>
+            <input id="term" type="text">
+            <button id="submit">Lookup</button>
+        </div>
+
+        <div id="lookup_result">
+            <div class="result_title"></div>
+            <div class="result_body"></div>
+            <button id="submit_to_store">Save</button>
+        </div>
+
+        <div id="current_entries">
+            <h3>{{ len }} Current Entries</h3>
+            {% for entry in current_entries %}
+            <div class="entry">
+                <div class="delete_from_store"></div>
+                <div class="entry_title"><h2>{{ entry.Title }}</h2></div>
+                <div class="entry_body">{{ entry.Body }}</div>
+                <div class="entry_uuid">{{ entry.uuid }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        <div id="footer">...</div>
+    </div>
+
+    <script src="static/jquery.js"></script>
+    <script>
+
+        const submit_query = function() {
+            let term = $("#term").val().trim();
+            if (term) {
+                let url = "get_wikipedia_entry/" + term;
+                $.getJSON(url, function (response) {
+                        let result = response;
+                        console.log(result)
+                        $(".result_title").html(result.title.capitalize());
+                        $(".result_body").html(result.body);
+                        $("#submit_to_store").css("display","block");
+                });
+            }
+        }
+
+        $("#submit").click(function () {
+            submit_query();
+        });
+
+        $("#term").keypress(function(evt) {
+            if(evt.which == 13) {
+               submit_query();
+            }
+        });
+
+        $("#submit_to_store").click(function () {
+            let term = $(".result_title").text();
+            if (term) {
+                let url = "save_entry_to_store/" + term;
+                $.post(url, function (response) {
+                        // Redirect
+                        document.location = "/";
+                });
+            }
+        });
+
+        $(".delete_from_store").click(function (evt) {
+            let uuid = $(evt.target).parent().find(".entry_uuid").text();
+            if (uuid) {
+                let url = "delete_entry_from_store/" + uuid;
+                $.post(url, function () {
+                        document.location = "/";
+                });
+            }
+        });
+
+        String.prototype.capitalize = function() {
+            return this.charAt(0).toUpperCase() + this.slice(1);
+        }
+    </script>
+</body>
+
+</html>
