@@ -32,32 +32,34 @@ async def delete(session, url):
         return await response.text()
 
 
-async def get_wiki_entry(url):
+async def get_wiki_entry(url, session=None):
     tasks = []
-    async with aiohttp.ClientSession() as session:
-        tasks.append(fetch(session, url))
-        results = await asyncio.gather(*tasks)
-        entry = json.loads(results[0])
-        return {
-            "Title": entry["Title"],
-            "Body": entry["Body"],
-            "uuid": entry["@name"]
-        }
+    session = aiohttp.ClientSession() if session is None else session
+
+    tasks.append(fetch(session, url))
+    results = await asyncio.gather(*tasks)
+    entry = json.loads(results[0])
+    return {
+        "Title": entry["Title"],
+        "Body": entry["Body"],
+        "uuid": entry["@name"]
+    }
 
 
-async def get_wiki_entries():
+async def get_wiki_entries(session=None):
     tasks = []
-    async with aiohttp.ClientSession() as session:
-        tasks.append(fetch(session, URL))
-        results = await asyncio.gather(*tasks)
-        if results[0] == '{}':
-            return []
-        all_entries = json.loads(results[0])["items"]
-        wiki_entries = []
-        for entry in all_entries:
-            entry_url = entry["@id"]
-            wiki_entries.append(await get_wiki_entry(entry_url))
-        return wiki_entries
+    session = aiohttp.ClientSession() if session is None else session
+
+    tasks.append(fetch(session, URL))
+    results = await asyncio.gather(*tasks)
+    if results[0] == '{}':
+        return []
+    all_entries = json.loads(results[0])["items"]
+    wiki_entries = []
+    for entry in all_entries:
+        entry_url = entry["@id"]
+        wiki_entries.append(await get_wiki_entry(entry_url))
+    return wiki_entries
 
 
 async def save_wiki_entry(title, body):

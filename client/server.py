@@ -1,4 +1,4 @@
-from aiohttp import web
+from aiohttp import web, ClientSession, TCPConnector
 import jinja2
 import aiohttp_jinja2
 import aiohttp
@@ -6,10 +6,14 @@ from wikipedia import get_description
 from wiki_entry import get_wiki_entries, save_wiki_entry, delete_wiki_entry
 
 
+# session to pass to client calls
+session = ClientSession(connector=TCPConnector(limit=0))
+
+
 @aiohttp_jinja2.template('wiki.html')
 async def main(request):
     message = "Welcome!"
-    entries = await get_wiki_entries()
+    entries = await get_wiki_entries(session)
     return {'message': message, "current_entries": entries, "len": len(entries)}
 
 
